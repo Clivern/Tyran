@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: pyarchiver
+Version: 1.0.0
+Author: Clivern
+Author-email: support at clivern com
+Maintainer: Clivern
+Maintainer-email: support at clivern com
+Home-page: https://github.com/Clivern/pyarchiver
+Download-url: https://github.com/Clivern/pyarchiver/archive/master.zip
+Summary: Python Compression and Archiving Library
+Keywords: compression,archiving,tarfile,zipfile,pyarchiver
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Utilities
