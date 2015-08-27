@@ -1,2 +1,1 @@
-# PyArchiver
-Python Compression and Archiving Library
+# Under Development
