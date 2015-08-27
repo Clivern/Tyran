@@ -14,7 +14,7 @@ setup(
     version = __VERSION__,
     author = "Clivern",
     author_email = "support@clivern.com",
-    description="Python Benchmarking Library",
+    description="Python Compression and Archiving Library",
     license = "MIT",
     keywords = "compression,archiving,tarfile,zipfile",
     url="http://clivern.com/portfolio/pyarchiver",
