@@ -13,7 +13,7 @@ setup(
     name = "pyarchiver",
     version = __VERSION__,
     author = "Clivern",
-    author_email = "support@clivern.com",
+    author_email = "hello@clivern.com",
     description="Python Compression and Archiving Library",
     license = "MIT",
     keywords = "compression,archiving,tarfile,zipfile",
