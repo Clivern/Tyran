@@ -16,8 +16,6 @@ import zlib
 class PyArchiver(dict):
 	""" A Class Which Compress and Decompress Files """
 	
-	
-
     def __init__(self, **kargs):
         """ Init PyArchiver Class """
         self._config(**kargs)
