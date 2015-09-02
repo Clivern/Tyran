@@ -1,5 +1,10 @@
-from __future__ import print_function
+"""
+PyArchiver Compression and Archiving Library
 
+@author: Clivern U{hello@clivern.com}
+"""
+
+from __future__ import print_function
 import os
 import bz2
 import gzip
@@ -9,69 +14,48 @@ import zlib
 
 
 class PyArchiver(dict):
-	""" A class which compress and decompress files """
+	""" A Class Which Compress and Decompress Files """
 	
-	def __init__(self, name=''):
-		pass
-		
-	def __getattr__(self, name, default = False):
-		""" Get attributes """
-		if name in self.__dict__:
-			return self.__dict__[name]
-		elif name in self:
-			return self.get(name)
-		else:
-			# Check for denormalized name
-			name = self._denormalize(name)
-			if name in self:
-				return self.get(name)
-			else:
-				return default
+	
 
-	def __setattr__(self, name, value):
-		""" Set attributes """
-		if name in self.__dict__:
-			self.__dict__[name] = value
-		elif name in self:
-			self[name] = value
-		else:
-			# Check for denormalized name
-			name2 = self._denormalize(name)
-			if name2 in self:
-				self[name2] = value
-			else:
-				# New attribute
-				self[name] = value
+    def __init__(self, **kargs):
+        """ Init PyArchiver Class """
+        self._config(**kargs)
 
-	def _normalize(self, value):
-		""" Normalize a string """
+    def _config(self, **kargs):
+        """ ReConfigure Package """
+        for key, value in kargs.items():
+            setattr(self, key, value)
 
-		if value.find('-') != -1:
-			value = value.replace('-', '_')
+    def getConfig(self, key):
+        """ Get a Config Value """
+        if hasattr(self, key):
+            return getattr(self, key)
+        else:
+            return None
 
-		return value
+    def setConfig(self, key, value):
+        """ Set a Config Value """
+        setattr(self, key, value)
 
-	def _denormalize(self, value):
-		""" De-normalize a string """
+    def getConfigs(self, *kargs):
+        """ Get Configs """
+        for key in kargs:
+			if hasattr(self, key):
+            	yield getattr(self, key)
+        	else:
+            	return None
 
-		if value.find('_') != -1:
-			value = value.replace('_', '-')
-
-		return value
-
-	def setConfig(self, name, value):
-		""" Set a config whether during compression or decompression process """
-		pass
-
-	def getConfig(self, name, default = False):
-		""" Get a config whether during compression or decompression process """
-		pass
+    def setConfigs(self, **kargs):
+        """ ReConfigure Package """
+        for key, value in kargs.items():
+            setattr(self, key, value)
 
 	def addFile(self, path):
 		""" Add file to be compressed """
 		pass
 
-	def addFiles(self, paths):
+	def addFiles(self, *paths):
 		""" Add files to be compressed """
 		pass
 
@@ -79,7 +63,7 @@ class PyArchiver(dict):
 		""" Add folder to be compressed """
 		pass
 
-	def addFolders(self, paths):
+	def addFolders(self, *paths):
 		""" Add folders to be compressed """
 		pass
 
@@ -99,10 +83,6 @@ class PyArchiver(dict):
 		""" Decompress archive """
 		pass
 
-	def getConfigs(self, default = {}):
-		""" Get compression or decompression configs """
-		pass
-
-	def getResults(self, default = {}):
+	def getResults(self):
 		""" Get compression or decompression process results """
 		pass
