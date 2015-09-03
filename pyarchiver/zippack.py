@@ -13,12 +13,13 @@ import zlib
 class ZipPack():
 	""" Read and Write ZIP Archives """
 
-	def __init__(self, file, mode = 'r', compression = zipfile.ZIP_STORED, allowZip64 = True):
+	def __init__(self, file, mode = 'r', type = 'zipfile', compression = zipfile.ZIP_STORED, allowZip64 = True):
 		""" 
 		Init class instance
 
 		:param file : Path to a new or an existing zip archive
 		:param mode : The mode parameter. defaults 'r' also it may be 'w' or 'a'
+		:param type : The type may be zipfile or pyzipfile
 		:param compression : The numeric constant. default zipfile.ZIP_STORED it may be zipfile.ZIP_DEFLATED, zipfile.ZIP_BZIP2, zipfile.ZIP_LZMA
 		:param allowZip64 : is True (the default) zipfile will create ZIP files that use the ZIP64 extensions when the zipfile is larger than 2 GiB.
 		                    If it is false zipfile will raise an exception when the ZIP file would require ZIP64 extensions.
@@ -27,7 +28,10 @@ class ZipPack():
 
 		.. versionadded:: 1.0.0
 		"""
-		self._ZIP = zipfile.ZipFile(file, mode, compression, allowZip64)
+		if type == 'pyzipfile':
+			self._ZIP = zipfile.PyZipFile(file, mode, compression, allowZip64)
+		else:
+			self._ZIP = zipfile.ZipFile(file, mode, compression, allowZip64)
 
 	def setFiles(self, files):
 		""" 
@@ -58,6 +62,20 @@ class ZipPack():
         """
 		for filename, arcname, compress_type in self._Files:
 			self._Files.write(filename, arcname, compress_type)
+		return self
+
+	def writePy(self, pathname):
+		""" 
+		Search for files *.py and add the corresponding file to the archive.
+		The corresponding file is a *.pyo file if available, else a *.pyc file, compiling if necessary. 
+
+		:param pathname is a file, the filename must end with .py or a package directory 
+
+		:return Instance of the object
+
+        .. versionadded:: 1.0.0
+        """
+		self._Files.writepy(pathname)
 		return self
 
 	def extract(self, member, path = None, pwd = None):
