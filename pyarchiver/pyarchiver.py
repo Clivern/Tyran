@@ -12,10 +12,12 @@ import tarfile
 import zipfile
 import zlib
 
-
 class PyArchiver(dict):
 	""" A Class Which Compress and Decompress Files """
 	
+	_FILES = []
+	_FOLDERS = []
+
     def __init__(self, **kargs):
         """ Init PyArchiver Class """
         self._config(**kargs)
@@ -51,11 +53,12 @@ class PyArchiver(dict):
 
 	def addFile(self, path):
 		""" Add file to be compressed """
-		pass
+		self._FILES.push(path)
 
 	def addFiles(self, *paths):
 		""" Add files to be compressed """
-		pass
+		for path in paths:
+			self._FILES.push(path)
 
 	def addFolder(self, path):
 		""" Add folder to be compressed """
@@ -63,7 +66,9 @@ class PyArchiver(dict):
 
 	def addFolders(self, *paths):
 		""" Add folders to be compressed """
-		pass
+		for path in paths:
+
+
 
 	def addArchive(self, path):
 		""" Add archive to be uncompressed """
@@ -71,7 +76,8 @@ class PyArchiver(dict):
 
 	def addArchives(self, paths):
 		""" Add archives to be uncompressed """
-		pass
+		for path in paths:
+			
 
 	def compress(self):
 		""" Compress files """

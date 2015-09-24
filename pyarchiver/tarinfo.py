@@ -4,8 +4,8 @@ PyArchiver Compression and Archiving Library
 @author: Clivern U{hello@clivern.com}
 """
 
-class ZipInfo(object):
-	""" A getter class for ZipInfo object """
+class TarInfo(object):
+	""" A getter class for TarInfo object """
 
 	def __init__(self, file_info):
 		self._FILE_INFO = file_info

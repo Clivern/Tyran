@@ -10,7 +10,7 @@ import bz2
 import zlib
 
 
-class ZipPack():
+class ZipPack(object):
 	""" Read and Write ZIP Archives """
 
 	def __init__(self, file, mode = 'r', type = 'zipfile', compression = zipfile.ZIP_STORED, allowZip64 = True):
@@ -61,7 +61,7 @@ class ZipPack():
         .. versionadded:: 1.0.0
         """
 		for filename, arcname, compress_type in self._Files:
-			self._Files.write(filename, arcname, compress_type)
+			self._ZIP.write(filename, arcname, compress_type)
 		return self
 
 	def writePy(self, pathname):
@@ -75,7 +75,7 @@ class ZipPack():
 
         .. versionadded:: 1.0.0
         """
-		self._Files.writepy(pathname)
+		self._ZIP.writepy(pathname)
 		return self
 
 	def extract(self, member, path = None, pwd = None):
