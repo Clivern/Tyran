@@ -56,7 +56,7 @@ class TarPack(object):
 			self._TAR.add(name, arcname)
 		return self
 
-	def extract(self, member, path = None, pwd = None):
+	def extract(self, member, path = None):
 		""" 
 		Extract a member from the archive to the current working directory or specific path.
 
@@ -64,29 +64,24 @@ class TarPack(object):
 		 	.. It is possible that files are created outside of path, 
 		    .. e.g. members that have absolute filenames starting with "/" or filenames with two dots ".."
 
-		:param member a member must be its full name or a ZipInfo object
+		:param member a member must be its full name or a TarInfo object
 		:param path a different directory to extract to
-		:param pwd is the password used for encrypted files.
-
-		:return the normalized path created (a directory or new file).
 		
         .. versionadded:: 1.0.0
         """
-		return self._ZIP.extract(member, path, pwd)
+		return self._TAR.extract(member, path)
 
-	def extractAll(self, path = None, member = None, pwd = None):
+	def extractAll(self, path = None):
 		"""
 		Extract all members from the archive to the current working directory or specific path.
 
 		:param path a different directory to extract to
-		:param member is optional and must be a subset of the list returned by namelist()
-		:param pwd is the password used for encrypted files.
 
 		:return Instance of the object
 		
         .. versionadded:: 1.0.0
         """
-		return self._ZIP.extract(member, path, pwd)
+		return self._TAR.extractall(path)
 
 	def close(self):
 		""" 
@@ -96,7 +91,7 @@ class TarPack(object):
 
 		.. versionadded:: 1.0.0
 		"""
-		self._ZIP.close()
+		self._TAR.close()
 		return self
 
 	def setInfo(self):
@@ -111,28 +106,38 @@ class TarPack(object):
 		
         .. versionadded:: 1.0.0
         """
-        #: A list containing a ZipInfo object for each member of the archive.
-        #: The objects are in the same order as their entries in the actual ZIP file on disk 
+        #: A list containing a TarInfo object for each member of the archive.
+        #: The objects are in the same order as their entries in the actual TAR file on disk 
         #: if an existing archive was opened.
-		self._ZIP_INFO_LIST = self._ZIP.infolist()
+		self._TAR_INFO_LIST = self._TAR.getmembers()
 		#: A list of archive members by name.
-		self._ZIP_NAME_LIST = self._ZIP.namelist()
-		#: The name of the first bad file, or else return None. 
-		#: Calling testzip() on a closed ZipFile will raise a RuntimeError.
-		self._ZIP_TEST = self._ZIP.testzip()
+		self._TAR_NAME_LIST = self._TAR.getnames()
+
 		return self
+
+	def getInfo(self, name):
+		"""
+		Get a TarInfo object for member name
+
+		:param name member name
+
+		:return TarInfo object
+
+		.. versionadded:: 1.0.0
+		"""
+		return self._TAR.getmember(name)
 
 	def getInfoList(self):
 		""" 
-        Returns a list containing a ZipInfo object for each member of the archive.
-        The objects are in the same order as their entries in the actual ZIP file on disk 
+        Returns a list containing a TarInfo object for each member of the archive.
+        The objects are in the same order as their entries in the actual TAR file on disk 
         if an existing archive was opened.
 
 		:return list
 		
         .. versionadded:: 1.0.0
         """
-		return self._ZIP_INFO_LIST
+		return self._TAR_INFO_LIST
 
 	def getNamesList(self):
 		""" 
@@ -142,17 +147,7 @@ class TarPack(object):
 		
         .. versionadded:: 1.0.0
         """
-		return self._ZIP_NAME_LIST
-
-	def getZipTest(self):
-		""" 
-		Returns the name of the first bad file, or else return None. 
-
-		:return string || None
-		
-        .. versionadded:: 1.0.0
-        """
-		return self._ZIP_TEST
+		return self._TAR_NAME_LIST
 
 
 	def isTarFileName(self, filename):

@@ -96,7 +96,7 @@ class ZipPack(object):
         """
 		return self._ZIP.extract(member, path, pwd)
 
-	def extractAll(self, path = None, member = None, pwd = None):
+	def extractAll(self, path = None, members = None, pwd = None):
 		"""
 		Extract all members from the archive to the current working directory or specific path.
 
@@ -108,7 +108,7 @@ class ZipPack(object):
 		
         .. versionadded:: 1.0.0
         """
-		return self._ZIP.extract(member, path, pwd)
+		return self._ZIP.extractall(path, members, pwd)
 
 	def open(self, name, mode='r', pwd=None):
 		""" 
