@@ -3,8 +3,8 @@
     <h3 align="center">Tyran</h3>
     <p align="center">A Vector Search as a Service.</p>
     <p align="center">
-        <a href="https://github.com/Norwik/Tyran/actions/workflows/api.yml">
-            <img src="https://github.com/Norwik/Tyran/actions/workflows/api.yml/badge.svg"/>
+        <a href="https://github.com/Clivern/Tyran/actions/workflows/api.yml">
+            <img src="https://github.com/Clivern/Tyran/actions/workflows/api.yml/badge.svg"/>
         </a>
         <a href="https://hub.docker.com/r/clivern/tyran">
             <img src="https://img.shields.io/badge/Docker-0.1.0-1abc9c.svg">
@@ -29,7 +29,7 @@
 To run `Tyran` with `sqlite` and `qdrant` on port `8000` on docker.
 
 ```bash
-$ wget https://raw.githubusercontent.com/Norwik/Tyran/main/docker-compose-sqlite.yml \
+$ wget https://raw.githubusercontent.com/Clivern/Tyran/main/docker-compose-sqlite.yml \
     -O docker-compose.yml
 
 $ export OPENAI_API_KEY=~~key goes here~~
@@ -40,7 +40,7 @@ $ docker-compose up -d
 To run `Tyran` with `mysql` and `qdrant` on port `8000` on docker.
 
 ```bash
-$ wget https://raw.githubusercontent.com/Norwik/Tyran/main/docker-compose-mysql.yml \
+$ wget https://raw.githubusercontent.com/Clivern/Tyran/main/docker-compose-mysql.yml \
     -O docker-compose.yml
 
 $ export DB_USERNAME=tyran
@@ -94,12 +94,12 @@ $ curl -X POST \
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Tyran is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
 
-See the [Releases section of our GitHub project](https://github.com/Norwik/Tyran/releases) for changelogs for each release version of Tyran. It contains summaries of the most noteworthy changes made in each release. Also see the [Milestones section](https://github.com/Norwik/Tyran/milestones) for the future roadmap.
+See the [Releases section of our GitHub project](https://github.com/Clivern/Tyran/releases) for changelogs for each release version of Tyran. It contains summaries of the most noteworthy changes made in each release. Also see the [Milestones section](https://github.com/Clivern/Tyran/milestones) for the future roadmap.
 
 
 ## Bug tracker
 
-If you have any suggestions, bug reports, or annoyances please report them to our issue tracker at https://github.com/Norwik/Tyran/issues
+If you have any suggestions, bug reports, or annoyances please report them to our issue tracker at https://github.com/Clivern/Tyran/issues
 
 
 ## Security Issues
