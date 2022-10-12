@@ -1,0 +1,29 @@
+name: API CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12.4']
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Run make ci
+      run: |
+        pip install --upgrade pip
+        make config
+        make ci
+        pip install git+https://github.com/psf/black
+        black app/ --check

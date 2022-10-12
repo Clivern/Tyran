@@ -1,0 +1,13 @@
+fastapi[standard]==0.114.0
+python-dotenv==1.0.1
+jsonschema==4.23.0
+requests==2.32.3
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.34
+pydantic_settings==2.5.0
+pytest==8.3.3
+qdrant-client==1.11.1
+openai==1.44.1
+SQLAlchemy==2.0.34
+chromadb==0.5.5
+mysqlclient==2.2.4

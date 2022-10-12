@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.11.3
+    restart: unless-stopped
+    expose:
+      - 6333
+      - 6334
+      - 6335
+    environment:
+      - QDRANT_LOG_LEVEL=INFO
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  tyran:
+    image: clivern/tyran:0.1.0
+    restart: unless-stopped
+    environment:
+      DB_DATABASE: /app/storage/tyran
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      QDRANT_DB_URL: http://qdrant:6333
+      QDRANT_DB_API_KEY: ''
+      QDRANT_DB_COLLECTION: tyr_collect
+    ports:
+      - "8000:8000"
+    volumes:
+      - app_data:/app/storage
+
+volumes:
+  qdrant_data:
+    driver: local
+
+  app_data:
+    driver: local

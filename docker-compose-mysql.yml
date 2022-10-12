@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.11.3
+    restart: unless-stopped
+    expose:
+      - 6333
+      - 6334
+      - 6335
+    environment:
+      - QDRANT_LOG_LEVEL=INFO
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  tyran:
+    image: clivern/tyran:0.1.0
+    restart: unless-stopped
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: tyran
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      QDRANT_DB_URL: http://qdrant:6333
+      QDRANT_DB_API_KEY: ''
+      QDRANT_DB_COLLECTION: tyr_collect
+    ports:
+      - "8000:8000"
+    volumes:
+      - app_data:/app/storage
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: tyran
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    expose:
+      - 3306
+
+volumes:
+  qdrant_data:
+    driver: local
+  app_data:
+    driver: local
+  mysql_data:
+    driver: local
