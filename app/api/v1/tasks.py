@@ -36,9 +36,7 @@ from app.core.openai_client import OpenAIClient
 def store_document_in_vector_db(document):
     log = get_logger()
 
-    log.info(
-        f"Store document with id {document.id} on vector database"
-    )
+    log.info(f"Store document with id {document.id} on vector database")
 
     if os.getenv("TEST_RUN"):
         return
@@ -46,9 +44,7 @@ def store_document_in_vector_db(document):
     openai_client = OpenAIClient(configs.openai_api_key)
     qdrant_client = Qdrant(configs.qdrant_db_url, configs.qdrant_db_api_key)
 
-    log.info(
-        f"Create embedding for document with id {document.id}"
-    )
+    log.info(f"Create embedding for document with id {document.id}")
 
     try:
         response = openai_client.create_embedding([document.content])
@@ -70,22 +66,16 @@ def store_document_in_vector_db(document):
             ],
         )
     except Exception as e:
-        log.error(
-            f"Unable to store embedding in vector database: {e}"
-        )
+        log.error(f"Unable to store embedding in vector database: {e}")
         return
 
-    log.info(
-        f"Stored embedding for document with id {document.id}"
-    )
+    log.info(f"Stored embedding for document with id {document.id}")
 
 
 def delete_document_from_vector_db(document_id):
     log = get_logger()
 
-    log.info(
-        f"Delete document with id {document_id} from the vector database"
-    )
+    log.info(f"Delete document with id {document_id} from the vector database")
 
     if os.getenv("TEST_RUN"):
         return
