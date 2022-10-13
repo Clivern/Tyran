@@ -27,16 +27,16 @@ import os
 import time
 from qdrant_client.models import PointStruct
 from app.core.configs import configs
-from app.core.logger import Logger
+from app.core.logger import get_logger
 from app.core.qdrant import Qdrant
 from app.core.chroma import ChromaClient
 from app.core.openai_client import OpenAIClient
 
 
 def store_document_in_vector_db(document):
-    log = Logger()
+    log = get_logger()
 
-    log.get_logger(__name__).info(
+    log.info(
         f"Store document with id {document.id} on vector database"
     )
 
@@ -46,17 +46,17 @@ def store_document_in_vector_db(document):
     openai_client = OpenAIClient(configs.openai_api_key)
     qdrant_client = Qdrant(configs.qdrant_db_url, configs.qdrant_db_api_key)
 
-    log.get_logger(__name__).info(
+    log.info(
         f"Create embedding for document with id {document.id}"
     )
 
     try:
         response = openai_client.create_embedding([document.content])
     except Exception as e:
-        log.get_logger(__name__).error(f"Unable to create embedding: {e}")
+        log.error(f"Unable to create embedding: {e}")
         return
 
-    log.get_logger(__name__).info(f"Store embedding for document with id {document.id}")
+    log.info(f"Store embedding for document with id {document.id}")
 
     try:
         qdrant_client.insert(
@@ -70,20 +70,20 @@ def store_document_in_vector_db(document):
             ],
         )
     except Exception as e:
-        log.get_logger(__name__).error(
+        log.error(
             f"Unable to store embedding in vector database: {e}"
         )
         return
 
-    log.get_logger(__name__).info(
+    log.info(
         f"Stored embedding for document with id {document.id}"
     )
 
 
 def delete_document_from_vector_db(document_id):
-    log = Logger()
+    log = get_logger()
 
-    log.get_logger(__name__).info(
+    log.info(
         f"Delete document with id {document_id} from the vector database"
     )
 

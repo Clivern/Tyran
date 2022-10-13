@@ -84,7 +84,7 @@ def search(
     result = []
     score_map = {item["id"]: item["score"] for item in idents}
 
-    log.info(f"Build final output for {idents}")
+    log.info(f"Build a final output for {idents}")
 
     for document in documents:
         result.append(
