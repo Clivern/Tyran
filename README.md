@@ -7,7 +7,7 @@
             <img src="https://github.com/Clivern/Tyran/actions/workflows/api.yml/badge.svg"/>
         </a>
         <a href="https://hub.docker.com/r/clivern/tyran">
-            <img src="https://img.shields.io/badge/Docker-0.1.1-1abc9c.svg">
+            <img src="https://img.shields.io/badge/Docker-0.2.0-1abc9c.svg">
         </a>
     </p>
     <p align="center">
