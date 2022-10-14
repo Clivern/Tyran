@@ -26,6 +26,20 @@
 from fastapi import Request, FastAPI
 from fastapi.responses import JSONResponse
 from app.core.logger import get_logger
+from fastapi.security import APIKeyHeader
+from fastapi import Security, HTTPException, status
+from app.core.configs import configs
+
+api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+async def get_api_key(api_key: str = Security(api_key_header)):
+    if configs.tyran_api_key == "" or api_key == configs.tyran_api_key:
+        return api_key
+
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN, detail="Invalid API Key"
+    )
 
 
 async def log_requests(request: Request, call_next):

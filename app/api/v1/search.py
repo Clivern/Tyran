@@ -33,12 +33,13 @@ from app.core import crud, schemas, database
 from app.core.logger import Logger, get_logger
 from app.core.qdrant import Qdrant, get_qdrant
 from app.core.openai_client import OpenAIClient, get_openai_client
+from app.core.middleware import get_api_key
 
 
 router = APIRouter()
 
 
-@router.post("/api/v1/document/search")
+@router.post("/api/v1/document/search", dependencies=[Depends(get_api_key)])
 def search(
     prompt: Prompt,
     db: Session = Depends(database.get_db),

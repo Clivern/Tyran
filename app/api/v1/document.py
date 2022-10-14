@@ -31,12 +31,13 @@ from app.core.logger import Logger
 from app.core import crud, schemas, database
 from app.api.v1.model import Document
 from app.core.logger import Logger, get_logger
+from app.core.middleware import get_api_key
 
 
 router = APIRouter()
 
 
-@router.post("/api/v1/document")
+@router.post("/api/v1/document", dependencies=[Depends(get_api_key)])
 def create(
     doc: Document,
     bg: BackgroundTasks,
@@ -69,7 +70,7 @@ def create(
     return doc
 
 
-@router.get("/api/v1/document/{identifier}")
+@router.get("/api/v1/document/{identifier}", dependencies=[Depends(get_api_key)])
 def get_document_by_identifier(
     identifier: str,
     db: Session = Depends(database.get_db),
@@ -96,7 +97,7 @@ def get_document_by_identifier(
     return doc
 
 
-@router.delete("/api/v1/document/{identifier}")
+@router.delete("/api/v1/document/{identifier}", dependencies=[Depends(get_api_key)])
 def delete_document_by_identifier(
     identifier: str,
     bg: BackgroundTasks,

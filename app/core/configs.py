@@ -52,6 +52,8 @@ class Configs(BaseSettings):
     db_username: str = "root"
     db_password: str = "root"
 
+    tyran_api_key: str = ""
+
     vector_search_driver: str = "qdrant"
     openai_api_key: str = ""
 
