@@ -34,12 +34,14 @@ api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
 
 async def get_api_key(api_key: str = Security(api_key_header)):
+    log = get_logger()
+
     if configs.tyran_api_key == "" or api_key == configs.tyran_api_key:
+        log.info("API key is valid or not required")
         return api_key
 
-    raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN, detail="Invalid API Key"
-    )
+    log.info("Invalid API key is provided")
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid API Key")
 
 
 async def log_requests(request: Request, call_next):
