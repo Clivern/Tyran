@@ -38,6 +38,7 @@ def store_document_in_vector_db(document):
 
     log.info(f"Store document with id {document.id} on vector database")
 
+    # Skip call in case of test run
     if os.getenv("TEST_RUN"):
         return
 
@@ -77,7 +78,9 @@ def delete_document_from_vector_db(document_id):
 
     log.info(f"Delete document with id {document_id} from the vector database")
 
+    # Skip call in case of test run
     if os.getenv("TEST_RUN"):
         return
 
+    # TODO: add the code to delete document from vector DB
     print(document_id)

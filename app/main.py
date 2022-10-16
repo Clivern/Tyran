@@ -26,6 +26,7 @@
 import os
 from fastapi import Request
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from app.core.configs import configs
 from app.api.router import router
 from app.core import models
@@ -33,7 +34,6 @@ from app.core.database import engine, wait_for_db
 from app.core.logger import get_logger
 from app.core.qdrant import get_qdrant
 from app.core.middleware import setup_middleware
-from fastapi.responses import JSONResponse
 
 
 log = get_logger()

@@ -46,6 +46,7 @@ async def get_api_key(api_key: str = Security(api_key_header)):
 
 async def log_requests(request: Request, call_next):
     log = get_logger()
+
     log.info(f"Received {request.method} request to {request.url}")
     response = await call_next(request)
     log.info(f"Returning {response.status_code} response")
@@ -53,6 +54,8 @@ async def log_requests(request: Request, call_next):
 
 
 async def global_exception_handler(request: Request, exc: Exception):
+    log = get_logger()
+
     log.error(f"Unhandled exception: {str(exc)}", exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
