@@ -70,6 +70,10 @@ class Configs(BaseSettings):
     app_timezone: str = "UTC"
     app_language: str = "en-us"
 
+    enable_otlp: bool = False
+    otlp_endpoint: str = ""
+    secure_otlp: bool = False
+
     def get_db_connection(self):
         if self.db_connection.lower() == "sqlite":
             return f"sqlite:///{self.db_database}.db"  # noqa: E231

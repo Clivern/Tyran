@@ -34,6 +34,11 @@ from app.core.database import engine, wait_for_db
 from app.core.logger import get_logger
 from app.core.qdrant import get_qdrant
 from app.core.middleware import setup_middleware
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 
 log = get_logger()
@@ -48,7 +53,23 @@ log.info("Database is migrated")
 
 log.info("Start the app server")
 
+if configs.enable_otlp and not os.getenv("TEST_RUN"):
+    log.info("Set up OpenTelemetry Tracer Provider")
+
+    tracer_provider = TracerProvider()
+    trace.set_tracer_provider(tracer_provider)
+    log.info("Set up OTLP exporter for traces")
+
+    otlp_exporter = OTLPSpanExporter(endpoint=configs.otlp_endpoint, insecure=not configs.secure_otlp)
+    span_processor = BatchSpanProcessor(otlp_exporter)
+    tracer_provider.add_span_processor(span_processor)
+
 app = FastAPI(title=configs.app_name, description=configs.app_description)
+
+if configs.enable_otlp and not os.getenv("TEST_RUN"):
+    log.info("Setup FastAPI instrumentor")
+
+    FastAPIInstrumentor.instrument_app(app)
 
 if configs.vector_search_driver == "qdrant" and not os.getenv("TEST_RUN"):
     log.info("Create qdrant collection")

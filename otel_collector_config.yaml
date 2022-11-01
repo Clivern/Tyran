@@ -1,0 +1,26 @@
+# Mac Setup
+# wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.110.0/otelcol-contrib_0.110.0_darwin_amd64.tar.gz
+# tar -xvf otelcol-contrib_0.110.0_darwin_amd64.tar.gz
+# ./otelcol-contrib --config otel_collector_config.yaml
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 127.0.0.1:4317
+      http:
+        endpoint: 127.0.0.1:4318
+
+processors:
+  batch:
+
+exporters:
+  logging:
+    loglevel: debug
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]

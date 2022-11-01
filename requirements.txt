@@ -9,6 +9,6 @@ pytest==8.3.3
 qdrant-client==1.11.3
 openai==1.50.2
 SQLAlchemy==2.0.35
-chromadb==0.5.11
 mysqlclient==2.2.4
 pytyran==0.1.4
+opentelemetry-instrumentation-fastapi==0.48b0
