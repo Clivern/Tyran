@@ -60,7 +60,9 @@ if configs.enable_otlp and not os.getenv("TEST_RUN"):
     trace.set_tracer_provider(tracer_provider)
     log.info("Set up OTLP exporter for traces")
 
-    otlp_exporter = OTLPSpanExporter(endpoint=configs.otlp_endpoint, insecure=not configs.secure_otlp)
+    otlp_exporter = OTLPSpanExporter(
+        endpoint=configs.otlp_endpoint, insecure=not configs.secure_otlp
+    )
     span_processor = BatchSpanProcessor(otlp_exporter)
     tracer_provider.add_span_processor(span_processor)
 
