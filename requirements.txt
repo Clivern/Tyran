@@ -12,3 +12,4 @@ SQLAlchemy==2.0.35
 mysqlclient==2.2.4
 pytyran==0.1.4
 opentelemetry-instrumentation-fastapi==0.48b0
+opentelemetry-sdk==1.27.0
