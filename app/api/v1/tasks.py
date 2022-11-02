@@ -29,7 +29,6 @@ from qdrant_client.models import PointStruct
 from app.core.configs import configs
 from app.core.logger import get_logger
 from app.core.qdrant import Qdrant
-from app.core.chroma import ChromaClient
 from app.core.openai_client import OpenAIClient
 
 

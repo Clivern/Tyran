@@ -57,8 +57,6 @@ class Configs(BaseSettings):
     vector_search_driver: str = "qdrant"
     openai_api_key: str = ""
 
-    chroma_db_collection: str = "tyrcollect"
-
     qdrant_db_url: str = ""
     qdrant_db_api_key: str = ""
     qdrant_db_collection: str = "tyrcollect"
