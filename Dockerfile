@@ -6,11 +6,11 @@ RUN pip install --upgrade pip
 
 RUN mkdir /app
 
-COPY requirements.txt /app/
+COPY requirements.freeze.txt /app/
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.freeze.txt
 
 COPY . /app
 
