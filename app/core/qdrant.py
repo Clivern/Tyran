@@ -75,6 +75,14 @@ class Qdrant:
 
         return data
 
+    def delete(self, collection: str, document_id: str):
+        return self._client.delete(
+            collection_name=collection,
+            points_selector=models.PointIdsList(
+                points=[document_id],
+            ),
+        )
+
 
 def get_qdrant() -> Qdrant:
     return Qdrant(configs.qdrant_db_url, configs.qdrant_db_api_key)
