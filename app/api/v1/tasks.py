@@ -89,7 +89,9 @@ def delete_document_from_vector_db(document_id):
             document_id,
         )
     except Exception as e:
-        log.error(f"Unable to delete document with id {document_id} from vector database: {e}")
+        log.error(
+            f"Unable to delete document with id {document_id} from vector database: {e}"
+        )
         return
 
     log.info(f"Document with id {document_id} got deleted from vector database")
