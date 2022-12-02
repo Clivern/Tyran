@@ -3,14 +3,16 @@ FROM python:3.12
 RUN apt-get update
 
 RUN pip install --upgrade pip
+RUN pip install uv
 
 RUN mkdir /app
 
-COPY requirements.freeze.txt /app/
+COPY pyproject.toml /app/
+COPY uv.lock /app/
 
 WORKDIR /app
 
-RUN pip install -r requirements.freeze.txt
+RUN uv pip install -r pyproject.toml
 
 COPY . /app
 
