@@ -1,7 +1,4 @@
-FAPI         ?= fastapi
-PIP          ?= pip
-PYCODESTYLE  ?= pycodestyle
-PYTEST       ?= pytest
+UV           ?= uv
 
 
 help: Makefile
@@ -15,47 +12,33 @@ help: Makefile
 ## config: Install dependencies.
 .PHONY: config
 config:
-	$(PIP) install --upgrade pip
-	$(PIP) install -r requirements.test.txt
-	$(PIP) install -r requirements.txt
-
-
-## lint-pycodestyle: PyCode Style Lint
-.PHONY: lint-pycodestyle
-lint-pycodestyle:
-	@echo "\n>> ============= Pycodestyle Linting ============= <<"
-	@find app -type f -name \*.py | while read file; do echo "$$file" && $(PYCODESTYLE) --config=./pycodestyle --first "$$file" || exit 1; done
+	$(UV) sync
 
 
 ## lint: Lint The Code.
 .PHONY: lint
-lint: lint-pycodestyle
+lint:
 	@echo "\n>> ============= All linting cases passed! ============= <<"
+	$(UV) run ruff check
 
 
 ## run: Run Fast API application
 .PHONY: run
 run:
 	@echo "\n>> ============= Run the Server ============= <<"
-	$(FAPI) dev app/main.py
-
-
-## outdated-pkg: Show outdated python packages
-.PHONY: lint outdated-pkg
-outdated-pkg:
-	@echo "\n>> ============= List Outdated Packages ============= <<"
-	$(PIP) list --outdated
+	$(UV) run fastapi dev app/main.py
 
 
 ## test: Run test cases
 .PHONY: test
 test:
-	TEST_RUN=true $(PYTEST) -v
+	export TEST_RUN=true
+	$(UV) run pytest -v
 
 
 ## ci: Run all CI tests.
 .PHONY: ci
-ci: lint test outdated-pkg
+ci: lint test
 	@echo "\n>> ============= All quality checks passed ============= <<"
 
 

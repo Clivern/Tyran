@@ -1,0 +1,24 @@
+[project]
+name = "tyran"
+version = "0.6.0"
+description = "A Vector Search as a Service"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi[standard]==0.115.4",
+    "jsonschema==4.23.0",
+    "mysqlclient==2.2.5",
+    "openai==1.53.0",
+    "opentelemetry-exporter-otlp==1.27.0",
+    "opentelemetry-instrumentation-fastapi==0.48b0",
+    "opentelemetry-sdk==1.27.0",
+    "pydantic-settings==2.5.2",
+    "pytest==8.3.3",
+    "python-dotenv==1.0.1",
+    "pytyran==0.1.5",
+    "qdrant-client==1.12.1",
+    "requests==2.32.3",
+    "ruff>=0.7.2",
+    "sqlalchemy==2.0.36",
+    "uvicorn[standard]==0.32.0",
+]
