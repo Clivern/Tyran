@@ -12,7 +12,7 @@ COPY uv.lock /app/
 
 WORKDIR /app
 
-RUN uv pip install -r pyproject.toml
+RUN uv pip install -r pyproject.toml --system
 
 COPY . /app
 
