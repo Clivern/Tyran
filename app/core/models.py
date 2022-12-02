@@ -30,7 +30,6 @@ from app.core.database import Base
 
 
 class Option(Base):
-
     __tablename__ = "option"
 
     id = Column(Integer, primary_key=True)
@@ -44,7 +43,6 @@ class Option(Base):
 
 
 class Document(Base):
-
     __tablename__ = "document"
 
     id = Column(Integer, primary_key=True)
@@ -61,7 +59,6 @@ class Document(Base):
 
 
 class DocumentMeta(Base):
-
     __tablename__ = "document_meta"
 
     id = Column(Integer, primary_key=True)

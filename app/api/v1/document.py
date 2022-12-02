@@ -26,11 +26,12 @@
 import uuid
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
-from app.api.v1.tasks import *
+from app.api.v1.tasks import store_document_in_vector_db
+from app.api.v1.tasks import delete_document_from_vector_db
 from app.core.logger import Logger
 from app.core import crud, schemas, database
 from app.api.v1.model import Document
-from app.core.logger import Logger, get_logger
+from app.core.logger import get_logger
 from app.core.middleware import get_api_key
 
 

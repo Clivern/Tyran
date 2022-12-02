@@ -29,8 +29,8 @@ from app.core.configs import configs
 from app.core.logger import Logger
 from app.api.v1.model import RelatedDocument
 from app.api.v1.model import Prompt
-from app.core import crud, schemas, database
-from app.core.logger import Logger, get_logger
+from app.core import crud, database
+from app.core.logger import get_logger
 from app.core.qdrant import Qdrant, get_qdrant
 from app.core.openai_client import OpenAIClient, get_openai_client
 from app.core.middleware import get_api_key
@@ -55,7 +55,7 @@ def search(
         log.error(f"Unable to create embedding: {e}")
         raise Exception("Internal Server Error")
 
-    log.info(f"Query vector database for similar records")
+    log.info("Query vector database for similar records")
 
     try:
         idents = qdrant_client.search(
@@ -69,7 +69,7 @@ def search(
         raise Exception("Internal Server Error")
 
     if len(idents) == 0:
-        log.info(f"No similar documents is found")
+        log.info("No similar documents is found")
         return []
 
     log.info(f"Fetch similar documents {idents}")

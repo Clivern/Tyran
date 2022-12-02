@@ -24,7 +24,6 @@
 # SOFTWARE.
 
 import os
-import time
 from qdrant_client.models import PointStruct
 from app.core.configs import configs
 from app.core.logger import get_logger

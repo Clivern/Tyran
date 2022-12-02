@@ -28,7 +28,6 @@ import logging
 
 
 class Logger:
-
     loggers = {}
 
     def __init__(self):

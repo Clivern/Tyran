@@ -28,7 +28,6 @@ from app.core.configs import configs
 
 
 class OpenAIClient:
-
     def __init__(self, api_key: str):
         self._client = OpenAI(api_key=api_key)
 

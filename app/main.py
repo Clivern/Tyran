@@ -24,9 +24,7 @@
 # SOFTWARE.
 
 import os
-from fastapi import Request
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from app.core.configs import configs
 from app.api.router import router
 from app.core import models

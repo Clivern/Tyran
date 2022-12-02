@@ -29,7 +29,6 @@ from app.core.configs import configs
 
 
 class Qdrant:
-
     def __init__(self, qdrant_url, qdrant_api_key):
         self._client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
 

@@ -37,7 +37,6 @@ else:
 
 
 class Configs(BaseSettings):
-
     app_name: str = "Tyran"
     app_description: str = "A Vector Search as a Service"
     app_key: str = ")lj2@3@y&5ofgoekbt2c-4$$w2bedn@-(hr&i^!#%wype&wp6d"

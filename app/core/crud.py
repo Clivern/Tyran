@@ -24,7 +24,6 @@
 # SOFTWARE.
 
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 from app.core import models, schemas
 
 

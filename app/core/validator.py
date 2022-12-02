@@ -33,7 +33,6 @@ from app.core.logger import Logger
 
 
 class Validator:
-
     def __init__(self):
         self.logger = Logger().get_logger(__name__)
 

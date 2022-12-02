@@ -1,6 +1,9 @@
 UV           ?= uv
 
 
+export TEST_RUN=true
+
+
 help: Makefile
 	@echo
 	@echo " Choose a command run in Tyran:"
