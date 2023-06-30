@@ -29,7 +29,7 @@ from opentelemetry.trace.status import Status, StatusCode
 
 def server_request_hook(span: trace.Span, scope: dict):
     if span and span.is_recording():
-        span.set_attribute("app_version", "0.7.0")
+        span.set_attribute("app_version", "0.7.2")
 
 
 def client_response_hook(span: trace.Span, scope: dict, message: dict):

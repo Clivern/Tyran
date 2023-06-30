@@ -14,7 +14,7 @@ services:
       - qdrant_data:/qdrant/storage
 
   tyran:
-    image: clivern/tyran:0.7.1
+    image: clivern/tyran:0.7.2
     restart: unless-stopped
     environment:
       DB_CONNECTION: mysql
