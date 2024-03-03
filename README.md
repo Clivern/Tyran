@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Tyran Logo" src="/static/img/logo.jpg" height="400" />
+    <img alt="Tyran Logo" src="/static/img/logo.png" height="400" />
     <h3 align="center">Tyran</h3>
     <p align="center">A Vector Search as a Service.</p>
     <p align="center">
