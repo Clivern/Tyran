@@ -4,7 +4,7 @@ jsonschema==4.23.0
 requests==2.32.3
 uvicorn[standard]==0.30.6
 sqlalchemy==2.0.34
-pydantic_settings==2.5.0
+pydantic_settings==2.5.2
 pytest==8.3.3
 qdrant-client==1.11.1
 openai==1.44.1
