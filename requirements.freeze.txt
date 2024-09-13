@@ -16,7 +16,7 @@ Deprecated==1.2.14
 distro==1.9.0
 dnspython==2.6.1
 email_validator==2.2.0
-fastapi==0.114.1
+fastapi==0.114.2
 fastapi-cli==0.0.5
 filelock==3.16.0
 flatbuffers==24.3.25
