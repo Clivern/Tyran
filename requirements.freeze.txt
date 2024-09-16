@@ -85,7 +85,7 @@ python-dotenv==1.0.1
 python-multipart==0.0.9
 pytyran==0.1.4
 PyYAML==6.0.2
-qdrant-client==1.11.1
+qdrant-client==1.11.2
 referencing==0.35.1
 requests==2.32.3
 requests-oauthlib==2.0.0

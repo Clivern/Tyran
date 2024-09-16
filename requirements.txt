@@ -6,7 +6,7 @@ uvicorn[standard]==0.30.6
 sqlalchemy==2.0.34
 pydantic_settings==2.5.2
 pytest==8.3.3
-qdrant-client==1.11.1
+qdrant-client==1.11.2
 openai==1.45.0
 SQLAlchemy==2.0.34
 chromadb==0.5.5
