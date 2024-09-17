@@ -18,7 +18,7 @@ dnspython==2.6.1
 email_validator==2.2.0
 fastapi==0.114.2
 fastapi-cli==0.0.5
-filelock==3.16.0
+filelock==3.16.1
 flatbuffers==24.3.25
 fsspec==2024.9.0
 google-auth==2.34.0
