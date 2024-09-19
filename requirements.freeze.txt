@@ -21,7 +21,7 @@ fastapi-cli==0.0.5
 filelock==3.16.1
 flatbuffers==24.3.25
 fsspec==2024.9.0
-google-auth==2.34.0
+google-auth==2.35.0
 googleapis-common-protos==1.65.0
 greenlet==3.1.0
 grpcio==1.66.1
