@@ -108,6 +108,6 @@ uvicorn==0.30.6
 uvloop==0.20.0
 watchfiles==0.24.0
 websocket-client==1.8.0
-websockets==13.0.1
+websockets==13.1
 wrapt==1.16.0
 zipp==3.20.2
