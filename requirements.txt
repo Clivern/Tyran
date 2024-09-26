@@ -9,6 +9,6 @@ pytest==8.3.3
 qdrant-client==1.11.3
 openai==1.48.0
 SQLAlchemy==2.0.35
-chromadb==0.5.7
+chromadb==0.5.9
 mysqlclient==2.2.4
 pytyran==0.1.4
