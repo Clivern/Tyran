@@ -105,7 +105,7 @@ tqdm==4.66.5
 typer==0.12.5
 typing_extensions==4.12.2
 urllib3==2.2.3
-uvicorn==0.30.6
+uvicorn==0.31.0
 uvloop==0.20.0
 watchfiles==0.24.0
 websocket-client==1.8.0
