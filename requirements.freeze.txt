@@ -25,8 +25,8 @@ fsspec==2024.9.0
 google-auth==2.35.0
 googleapis-common-protos==1.65.0
 greenlet==3.1.1
-grpcio==1.66.1
-grpcio-tools==1.66.1
+grpcio==1.66.2
+grpcio-tools==1.66.2
 h11==0.14.0
 h2==4.1.0
 hpack==4.0.0
@@ -83,7 +83,7 @@ pyproject_hooks==1.1.0
 pytest==8.3.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
-python-multipart==0.0.10
+python-multipart==0.0.11
 pytyran==0.1.4
 PyYAML==6.0.2
 qdrant-client==1.11.3
