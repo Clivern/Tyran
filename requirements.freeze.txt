@@ -79,11 +79,11 @@ pydantic-settings==2.5.2
 pydantic_core==2.23.4
 Pygments==2.18.0
 PyPika==0.48.9
-pyproject_hooks==1.1.0
+pyproject_hooks==1.2.0
 pytest==8.3.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
-python-multipart==0.0.11
+python-multipart==0.0.12
 pytyran==0.1.4
 PyYAML==6.0.2
 qdrant-client==1.11.3
