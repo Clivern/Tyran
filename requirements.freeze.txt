@@ -15,7 +15,7 @@ coloredlogs==15.0.1
 Deprecated==1.2.14
 distro==1.9.0
 dnspython==2.6.1
-durationpy==0.7
+durationpy==0.8
 email_validator==2.2.0
 fastapi==0.115.0
 fastapi-cli==0.0.5
