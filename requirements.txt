@@ -7,7 +7,7 @@ sqlalchemy==2.0.35
 pydantic_settings==2.5.2
 pytest==8.3.3
 qdrant-client==1.12.0
-openai==1.51.0
+openai==1.51.2
 SQLAlchemy==2.0.35
 mysqlclient==2.2.4
 pytyran==0.1.4
