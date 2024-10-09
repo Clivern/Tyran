@@ -2,7 +2,7 @@ fastapi[standard]==0.115.0
 python-dotenv==1.0.1
 jsonschema==4.23.0
 requests==2.32.3
-uvicorn[standard]==0.31.0
+uvicorn[standard]==0.31.1
 sqlalchemy==2.0.35
 pydantic_settings==2.5.2
 pytest==8.3.3
