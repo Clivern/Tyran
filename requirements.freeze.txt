@@ -33,7 +33,7 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 langchain-core==0.3.12
 langchain-text-splitters==0.3.0
-langsmith==0.1.135
+langsmith==0.1.136
 markdown-it-py==3.0.0
 MarkupSafe==3.0.1
 mdurl==0.1.2
