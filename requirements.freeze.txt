@@ -35,7 +35,7 @@ langchain-core==0.3.12
 langchain-text-splitters==0.3.0
 langsmith==0.1.136
 markdown-it-py==3.0.0
-MarkupSafe==3.0.1
+MarkupSafe==3.0.2
 mdurl==0.1.2
 mysqlclient==2.2.4
 numpy==2.1.2
@@ -52,7 +52,7 @@ opentelemetry-proto==1.27.0
 opentelemetry-sdk==1.27.0
 opentelemetry-semantic-conventions==0.48b0
 opentelemetry-util-http==0.48b0
-orjson==3.10.7
+orjson==3.10.9
 packaging==24.1
 pluggy==1.5.0
 portalocker==2.10.1
