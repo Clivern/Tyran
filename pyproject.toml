@@ -9,7 +9,7 @@ dependencies = [
     "jsonschema==4.23.0",
     "mysqlclient==2.2.5",
     "openai==1.54.1",
-    "opentelemetry-exporter-otlp==1.27.0",
+    "opentelemetry-exporter-otlp==1.28.0",
     "opentelemetry-instrumentation-fastapi==0.48b0",
     "opentelemetry-sdk==1.27.0",
     "pydantic-settings==2.5.2",
