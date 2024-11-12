@@ -5,7 +5,7 @@ description = "A Vector Search as a Service"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "fastapi[standard]==0.115.4",
+    "fastapi[standard]==0.115.5",
     "jsonschema==4.23.0",
     "mysqlclient==2.2.5",
     "openai==1.54.4",
