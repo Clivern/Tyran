@@ -16,7 +16,7 @@ dependencies = [
     "pytest==8.3.4",
     "python-dotenv==1.0.1",
     "pytyran==0.1.5",
-    "qdrant-client==1.12.2",
+    "qdrant-client==1.13.0",
     "requests==2.32.3",
     "ruff>=0.7.2",
     "sqlalchemy==2.0.37",
