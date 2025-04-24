@@ -1499,7 +1499,7 @@ wheels = [
 
 [[package]]
 name = "qdrant-client"
-version = "1.14.1"
+version = "1.14.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "grpcio" },
@@ -1511,9 +1511,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a8/c0/70ac9c3e067f4711cbd91a9c48bddf96b9845bfa44ca9f746e5cb83b3194/qdrant_client-1.14.1.tar.gz", hash = "sha256:75352057ea59fdd7987313dc9cef4d83953591d083028d94eac99cd0e5e2f607", size = 285420, upload_time = "2025-04-22T16:26:30.377Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/00/80/b84c4c52106b6da291829d8ec632f58a5692d2772e8d3c1d3be4f9a47a2e/qdrant_client-1.14.2.tar.gz", hash = "sha256:da5cab4d367d099d1330b6f30d45aefc8bd76f8b8f9d8fa5d4f813501b93af0d", size = 285531, upload_time = "2025-04-24T14:44:43.307Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a2/f0/afd1f74a2d12a95e465123253d3534e5c83e0fa5ae40a4e4ebb246075435/qdrant_client-1.14.1-py3-none-any.whl", hash = "sha256:1c4d5ed791873698da8b5df68df16bb203ec1b0cd6cec0fd6002572a06291a1b", size = 327578, upload_time = "2025-04-22T16:26:28.621Z" },
+    { url = "https://files.pythonhosted.org/packages/e4/52/f49b0aa96253010f57cf80315edecec4f469e7a39c1ed92bf727fa290e57/qdrant_client-1.14.2-py3-none-any.whl", hash = "sha256:7c283b1f0e71db9c21b85d898fb395791caca2a6d56ee751da96d797b001410c", size = 327691, upload_time = "2025-04-24T14:44:41.794Z" },
 ]
 
 [[package]]
@@ -1944,7 +1944,7 @@ requires-dist = [
     { name = "pytest", specifier = "==8.3.5" },
     { name = "python-dotenv", specifier = "==1.1.0" },
     { name = "pytyran", specifier = "==0.1.5" },
-    { name = "qdrant-client", specifier = "==1.14.1" },
+    { name = "qdrant-client", specifier = "==1.14.2" },
     { name = "requests", specifier = "==2.32.3" },
     { name = "ruff", specifier = ">=0.7.2" },
     { name = "sqlalchemy", specifier = "==2.0.40" },
