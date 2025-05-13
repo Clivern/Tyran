@@ -8,7 +8,7 @@ dependencies = [
     "fastapi[standard]==0.115.12",
     "jsonschema==4.23.0",
     "mysqlclient==2.2.7",
-    "openai==1.78.0",
+    "openai==1.78.1",
     "opentelemetry-exporter-otlp==1.27.0",
     "opentelemetry-instrumentation-fastapi==0.48b0",
     "opentelemetry-sdk==1.27.0",
