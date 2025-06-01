@@ -20,5 +20,5 @@ dependencies = [
     "requests==2.32.3",
     "ruff>=0.7.2",
     "sqlalchemy==2.0.41",
-    "uvicorn[standard]==0.34.2",
+    "uvicorn[standard]==0.34.3",
 ]
