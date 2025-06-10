@@ -17,7 +17,7 @@ dependencies = [
     "python-dotenv==1.1.0",
     "pytyran==0.1.5",
     "qdrant-client==1.14.2",
-    "requests==2.32.3",
+    "requests==2.32.4",
     "ruff>=0.7.2",
     "sqlalchemy==2.0.41",
     "uvicorn[standard]==0.34.3",
