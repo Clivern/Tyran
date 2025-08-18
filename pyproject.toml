@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
     "fastapi[standard]==0.116.1",
-    "jsonschema==4.25.0",
+    "jsonschema==4.25.1",
     "mysqlclient==2.2.7",
     "openai==1.99.9",
     "opentelemetry-exporter-otlp==1.27.0",
