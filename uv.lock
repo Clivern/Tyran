@@ -961,7 +961,7 @@ wheels = [
 
 [[package]]
 name = "openai"
-version = "1.100.0"
+version = "1.102.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -973,9 +973,9 @@ dependencies = [
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/03/2ef7e2e3efb699aa19500421ef933cfb7d1d68140ef219cd1c225e5da018/openai-1.100.0.tar.gz", hash = "sha256:44d08958bbb5f529a373eb97af7891a1809fbd87f43b04e2de1a2edff92b0452", size = 507882, upload-time = "2025-08-18T15:00:34.564Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/07/55/da5598ed5c6bdd9939633854049cddc5cbac0da938dfcfcb3c6b119c16c0/openai-1.102.0.tar.gz", hash = "sha256:2e0153bcd64a6523071e90211cbfca1f2bbc5ceedd0993ba932a5869f93b7fc9", size = 519027, upload-time = "2025-08-26T20:50:29.397Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6b/7d/7b83cf1dcc50a322c9205b5867164849eb6bbc81a25529d2c02330394f49/openai-1.100.0-py3-none-any.whl", hash = "sha256:cc59bf7035b30a5152cbc2795fd67982d234d1ec15bb40a4346b2ee1153148a3", size = 786496, upload-time = "2025-08-18T15:00:32.636Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/0d/c9e7016d82c53c5b5e23e2bad36daebb8921ed44f69c0a985c6529a35106/openai-1.102.0-py3-none-any.whl", hash = "sha256:d751a7e95e222b5325306362ad02a7aa96e1fab3ed05b5888ce1c7ca63451345", size = 812015, upload-time = "2025-08-26T20:50:27.219Z" },
 ]
 
 [[package]]
@@ -2097,7 +2097,7 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = "==0.116.1" },
     { name = "jsonschema", specifier = "==4.25.1" },
     { name = "mysqlclient", specifier = "==2.2.7" },
-    { name = "openai", specifier = "==1.100.0" },
+    { name = "openai", specifier = "==1.102.0" },
     { name = "opentelemetry-exporter-otlp", specifier = "==1.27.0" },
     { name = "opentelemetry-instrumentation-fastapi", specifier = "==0.48b0" },
     { name = "opentelemetry-sdk", specifier = "==1.27.0" },
