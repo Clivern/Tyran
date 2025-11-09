@@ -26,7 +26,7 @@
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from app.core.database import Base
+from .client import Base
 
 
 class Option(Base):
@@ -47,6 +47,7 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True)
     identifier = Column(String(60), unique=True, index=True)
+    category = Column(String(60), nullable=False)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now(), default=func.now())

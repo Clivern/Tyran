@@ -23,10 +23,45 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import os.path
+from __future__ import annotations
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_ROOT = os.path.dirname(APP_DIR)
+from datetime import datetime
+from typing import Optional
 
-__all__ = ["APP_ROOT", "APP_DIR"]
+from pydantic import BaseModel, ConfigDict
+
+
+class DocumentBase(BaseModel):
+    identifier: str
+    content: str
+    category: str
+
+
+class DocumentCreate(DocumentBase):
+    pass
+
+
+class Document(DocumentBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class DocumentCreateRequest(BaseModel):
+    content: str
+    category: str
+    identifier: Optional[str] = None
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class DocumentResponse(BaseModel):
+    id: str
+    content: str
+    category: str
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(extra="forbid")

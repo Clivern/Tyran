@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Tyran Logo" src="/static/img/logo.png" height="250" />
+    <img alt="Tyran Logo" src="/static/img/logo.png" height="150" />
     <h3 align="center">Tyran</h3>
     <p align="center">A Vector Search as a Service.</p>
     <p align="center">
@@ -33,7 +33,6 @@ $ wget https://raw.githubusercontent.com/Clivern/Tyran/main/docker-compose-sqlit
     -O docker-compose.yml
 
 $ export OPENAI_API_KEY=~~key goes here~~
-
 $ docker-compose up -d
 ```
 
@@ -57,14 +56,12 @@ $ curl -X POST \
   http://127.0.0.1:8000/api/v1/document \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
-  -d '{"content": "Hello World", "metadata": {"type":"testdata"}}'
+  -d '{"content": "Hello World", "category": "testdata"}'
 
 {
   "id": "3d0ffff3-5d05-46e3-84c3-b805aad93a81",
   "content": "Hello World",
-  "metadata": {
-    "type": "testdata"
-  },
+  "category": "testdata",
   "createdAt": "2024-09-06T11:16:00",
   "updatedAt": "2024-09-06T11:16:00"
 }
@@ -73,15 +70,13 @@ $ curl -X POST \
   http://127.0.0.1:8000/api/v1/document/search \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
-  -d '{"text": "hi world", "limit": 1, "metadata": {"type":"testdata"}}'
+  -d '{"text": "hi world", "limit": 1, "category": "testdata"}'
 
 [
   {
     "id": "3d0ffff3-5d05-46e3-84c3-b805aad93a81",
     "content": "Hello World",
-    "metadata": {
-      "type": "testdata"
-    },
+    "category": "testdata",
     "createdAt": "2024-09-06T11:13:27",
     "updatedAt": "2024-09-06T11:13:27",
     "score": 0.85183966

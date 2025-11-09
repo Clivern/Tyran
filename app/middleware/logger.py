@@ -23,13 +23,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import APIRouter, Depends
-from app.core.logger import Logger, get_logger
+from fastapi import Request
+from app.core.logger import get_logger
 
 
-router = APIRouter()
-
-
-@router.get("/")
-def home(log: Logger = Depends(get_logger)):
-    return {"status": "ok"}
+async def log_requests(request: Request, call_next):
+    log = get_logger()
+    log.info(f"Received {request.method} request to {request.url}")
+    response = await call_next(request)
+    log.info(f"Returning {response.status_code} response")
+    return response

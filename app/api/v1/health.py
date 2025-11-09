@@ -23,14 +23,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import APIRouter, Depends
-from app.core.logger import Logger, get_logger
+from __future__ import annotations
 
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+
+from app.api.v1.deps import get_db
 
 router = APIRouter()
 
 
+@router.get("/_health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @router.get("/_ready")
-def ready(log: Logger = Depends(get_logger)):
-    log.info("System is ready")
+def ready(session: Session = Depends(get_db)) -> dict[str, str]:
+    try:
+        session.execute(text("SELECT 1"))
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database is unavailable",
+        ) from exc
+
     return {"status": "ok"}

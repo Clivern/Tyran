@@ -23,10 +23,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import os.path
+from fastapi import FastAPI
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_ROOT = os.path.dirname(APP_DIR)
+from .auth import validate_api_key
+from .exception import global_exception_handler
+from .logger import log_requests
 
-__all__ = ["APP_ROOT", "APP_DIR"]
+__all__ = ["setup_middleware", "validate_api_key"]
+
+
+def setup_middleware(app: FastAPI):
+    app.middleware("http")(log_requests)
+    app.exception_handler(Exception)(global_exception_handler)

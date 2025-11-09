@@ -27,6 +27,7 @@ services:
       QDRANT_DB_URL: http://qdrant:6333
       QDRANT_DB_API_KEY: ''
       QDRANT_DB_COLLECTION: tyr_collect
+      QDRANT_DB_INDEX: ${QDRANT_DB_INDEX:-type}
     ports:
       - "8000:8000"
     volumes:

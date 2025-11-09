@@ -23,43 +23,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import Request, FastAPI
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from app.core.logger import get_logger
-from fastapi.security import APIKeyHeader
-from fastapi import Security, HTTPException, status
-from app.core.configs import configs
-
-api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
-
-
-async def get_api_key(api_key: str = Security(api_key_header)):
-    log = get_logger()
-
-    if configs.tyran_api_key == "" or api_key == configs.tyran_api_key:
-        log.info("API key is valid or not required")
-        return api_key
-
-    log.info("Invalid API key is provided")
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid API Key")
-
-
-async def log_requests(request: Request, call_next):
-    log = get_logger()
-
-    log.info(f"Received {request.method} request to {request.url}")
-    response = await call_next(request)
-    log.info(f"Returning {response.status_code} response")
-    return response
 
 
 async def global_exception_handler(request: Request, exc: Exception):
     log = get_logger()
-
     log.error(f"Unhandled exception: {str(exc)}", exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
-
-
-def setup_middleware(app: FastAPI):
-    app.middleware("http")(log_requests)
-    app.exception_handler(Exception)(global_exception_handler)

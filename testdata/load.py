@@ -20,28 +20,37 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from pytyran.client import Client
-from pytyran.reader import Reader
+from pathlib import Path
+
+import requests
 
 
-reader = Reader()
-tyran_client = Client("http://127.0.0.1:8000")
+BASE_URL = "http://127.0.0.1:8000/api/v1/document"
+TIMEOUT = 10
+CATEGORY = "runbook"
+TESTDATA_DIR = Path(__file__).resolve().parent
+
 
 # Loop through the files
 for i in range(1, 15):
-    filename = f"testdata/runbook{i}.md"
+    filename = TESTDATA_DIR / f"runbook{i}.md"
 
     # Read the file content
-    content = reader.read_file(filename)
+    content = filename.read_text(encoding="utf-8")
 
-    # Send the POST request
-    response = tyran_client.create_document(
-        content, {"type": "runbook", "team": "devops"}
-    )
+    try:
+        response = requests.post(
+            BASE_URL,
+            json={"content": content, "category": CATEGORY},
+            timeout=TIMEOUT,
+        )
+    except requests.RequestException as exc:
+        print(f"Failed to upload {filename}: {exc}")
+        continue
 
     # Check the response status code
-    if response.status_code == 200:
+    if response.status_code == 201:
         print(f"Successfully uploaded {filename}")
     else:
-        print(f"Failed to upload {filename}")
+        print(f"Failed to upload {filename}: {response.status_code}")
         print(response.text)

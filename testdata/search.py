@@ -22,16 +22,26 @@
 
 import argparse
 import json
-from pytyran.client import Client
+
+import requests
 
 
-def main(search_text):
-    tyran_client = Client("http://127.0.0.1:8000")
+BASE_URL = "http://127.0.0.1:8000/api/v1/document/search"
+CATEGORY = "runbook"
+LIMIT = 3
+TIMEOUT = 10
 
-    # Send the POST request
-    response = tyran_client.search_documents(
-        search_text, {"type": "runbook", "team": "devops"}, 3
-    )
+
+def main(search_text: str) -> None:
+    try:
+        response = requests.post(
+            BASE_URL,
+            json={"text": search_text, "category": CATEGORY, "limit": LIMIT},
+            timeout=TIMEOUT,
+        )
+    except requests.RequestException as exc:
+        print(f"Failed to perform search: {exc}")
+        return
 
     # Check the response status code
     if response.status_code == 200:

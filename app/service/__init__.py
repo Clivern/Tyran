@@ -23,19 +23,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from opentelemetry import trace
-from opentelemetry.trace.status import Status, StatusCode
+from .openai import OpenAIClient, get_openai_client
+from .qdrant import Qdrant, get_qdrant
+from .validator import Validator, get_validator
 
-
-def server_request_hook(span: trace.Span, scope: dict):
-    if span and span.is_recording():
-        span.set_attribute("app_version", "0.7.2")
-
-
-def client_response_hook(span: trace.Span, scope: dict, message: dict):
-    if span and span.is_recording():
-        status_code = message.get("status", 200)
-        if status_code < 400:
-            span.set_status((Status(StatusCode.OK), "Success"))
-        else:
-            span.set_status(Status(StatusCode.ERROR, f"HTTP {status_code}"))
+__all__ = [
+    "OpenAIClient",
+    "Qdrant",
+    "Validator",
+    "get_openai_client",
+    "get_qdrant",
+    "get_validator",
+]

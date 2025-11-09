@@ -24,7 +24,7 @@
 # SOFTWARE.
 
 from openai import OpenAI
-from app.core.configs import configs
+from app.core.config import configs
 
 
 class OpenAIClient:
@@ -36,7 +36,7 @@ class OpenAIClient:
             input=texts, model="text-embedding-3-small"
         )
 
-    def get_client(self):
+    def get_client(self) -> OpenAI:
         return self._client
 
 

@@ -114,5 +114,3 @@ ENV/
 
 tyran.db
 
-otel_collector_config_prod.yaml
-

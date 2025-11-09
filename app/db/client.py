@@ -23,16 +23,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import APIRouter
+import time
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import sessionmaker
+from app.core.config import configs
 
-from app.api.web import health, home, ready
-from app.api.v1 import document, search
+
+if configs.db_connection == "mysql":
+    engine = create_engine(str(configs.get_db_connection()))
+else:
+    engine = create_engine(
+        str(configs.get_db_connection()), connect_args={"check_same_thread": False}
+    )
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
 
 
-router = APIRouter()
+def get_db() -> Session:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-router.include_router(health.router, tags=["web"])
-router.include_router(home.router, tags=["web"])
-router.include_router(ready.router, tags=["web"])
-router.include_router(document.router, tags=["api"])
-router.include_router(search.router, tags=["api"])
+
+def wait_for_db(engine, max_retries: int = 5, retry_interval: int = 10):
+    for i in range(max_retries):
+        try:
+            connection = engine.connect()
+            connection.close()
+            return
+        except Exception:
+            time.sleep(retry_interval)
+
+    raise Exception("Could not connect to the database after multiple retries")

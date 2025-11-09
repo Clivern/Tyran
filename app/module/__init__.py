@@ -23,10 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import os.path
+from .document import DocumentModule
+from .search import SearchModule
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_ROOT = os.path.dirname(APP_DIR)
-
-__all__ = ["APP_ROOT", "APP_DIR"]
+__all__ = ["DocumentModule", "SearchModule"]
