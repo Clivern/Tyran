@@ -24,18 +24,12 @@
 # SOFTWARE.
 
 import json
-
 from jsonschema import validate
 from jsonschema import ValidationError
-
 from app import APP_ROOT
-from app.core.logger import Logger
 
 
 class Validator:
-    def __init__(self):
-        self.logger = Logger().get_logger(__name__)
-
     def validate(self, data, schema_path):
         self.error = ""
 

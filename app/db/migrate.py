@@ -44,13 +44,13 @@ def _ensure_vector_collection() -> None:
         return
 
     logger = get_logger()
-    logger.info("Ensure Qdrant collection %s exists", configs.qdrant_db_collection)
+    logger.info(f"Ensure Qdrant collection {configs.qdrant_db_collection} exists")
     qdrant_client = get_qdrant()
     qdrant_client.create_collection_if_not_exist(configs.qdrant_db_collection)
     qdrant_client.ensure_payload_index(
         configs.qdrant_db_collection, configs.qdrant_db_index
     )
-    logger.info("Qdrant collection %s is ready", configs.qdrant_db_collection)
+    logger.info(f"Qdrant collection {configs.qdrant_db_collection} is ready")
 
 
 def run_initial_migrations() -> None:

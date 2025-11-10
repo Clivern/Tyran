@@ -34,8 +34,12 @@ api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 async def validate_api_key(api_key: str = Security(api_key_header)):
     log = get_logger()
 
-    if configs.tyran_api_key == "" or api_key == configs.tyran_api_key:
-        log.info("API key is valid or not required")
+    if configs.tyran_api_key == "":
+        log.info("API key is not required")
+        return api_key
+
+    if api_key == configs.tyran_api_key:
+        log.info("API key is valid")
         return api_key
 
     log.info("Invalid API key is provided")
