@@ -36,6 +36,11 @@ log = get_logger()
 run_initial_migrations()
 
 log.info("Start the app server")
-app = FastAPI(title=configs.app_name, description=configs.app_description)
+app = FastAPI(
+    title=configs.app_name,
+    description=configs.app_description,
+    docs_url=None,
+    redoc_url=None,
+)
 app.include_router(router)
 setup_middleware(app)
