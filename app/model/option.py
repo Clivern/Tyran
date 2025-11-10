@@ -23,10 +23,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import os.path
+from __future__ import annotations
+from datetime import datetime
+from typing import Optional
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_ROOT = os.path.dirname(APP_DIR)
+from pydantic import BaseModel, ConfigDict
 
-__all__ = ["APP_ROOT", "APP_DIR"]
+
+class OptionBase(BaseModel):
+    key: str
+    value: str
+
+
+class OptionCreate(OptionBase):
+    pass
+
+
+class OptionUpdate(BaseModel):
+    key: Optional[str] = None
+    value: Optional[str] = None
+
+
+class Option(OptionBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

@@ -23,14 +23,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import APIRouter, Depends
-from app.core.logger import Logger, get_logger
+from __future__ import annotations
+from app.core.config import configs
+from app.core.logger import get_logger
+from app.db.client import engine, wait_for_db
+from app.db.scheme import Base
+from app.service.qdrant import get_qdrant
 
 
-router = APIRouter()
+def _migrate_database() -> None:
+    logger = get_logger()
+    logger.info("Attempt to migrate the database")
+    wait_for_db(engine, 30)
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database is migrated")
 
 
-@router.get("/_health")
-def health(log: Logger = Depends(get_logger)):
-    log.info("System is healthy")
-    return {"status": "ok"}
+def _ensure_vector_collection() -> None:
+    if configs.vector_search_driver.lower() != "qdrant":
+        return
+
+    logger = get_logger()
+    logger.info("Ensure Qdrant collection %s exists", configs.qdrant_db_collection)
+    qdrant_client = get_qdrant()
+    qdrant_client.create_collection_if_not_exist(configs.qdrant_db_collection)
+    qdrant_client.ensure_payload_index(
+        configs.qdrant_db_collection, configs.qdrant_db_index
+    )
+    logger.info("Qdrant collection %s is ready", configs.qdrant_db_collection)
+
+
+def run_initial_migrations() -> None:
+    _migrate_database()
+    _ensure_vector_collection()

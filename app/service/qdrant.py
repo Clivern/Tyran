@@ -25,19 +25,20 @@
 
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import VectorParams, Distance
-from app.core.configs import configs
+from app.core.config import configs
 
 
 class Qdrant:
     def __init__(self, qdrant_url, qdrant_api_key):
         self._client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
 
-    def create_collection_if_not_exist(self, collection: str, size=1536):
+    def create_collection_if_not_exist(self, collection: str, size: int = 1536):
         if not self._client.collection_exists(collection):
             self._client.create_collection(
                 collection,
                 vectors_config=VectorParams(size=size, distance=Distance.COSINE),
             )
+        self.ensure_payload_index(collection, configs.qdrant_db_index)
 
     def insert(self, collection: str, points: list):
         return self._client.upsert(collection, points)
@@ -80,6 +81,26 @@ class Qdrant:
             points_selector=models.PointIdsList(
                 points=[document_id],
             ),
+        )
+
+    def ensure_payload_index(self, collection: str, field: str) -> None:
+        field = (field or "").strip()
+        if not field:
+            return
+
+        try:
+            collection_info = self._client.get_collection(collection_name=collection)
+            payload_schema = collection_info.payload_schema or {}
+            if field in payload_schema:
+                return
+        except Exception:
+            # In case we can't fetch collection details, attempt to create the index anyway.
+            pass
+
+        self._client.create_payload_index(
+            collection_name=collection,
+            field_name=field,
+            field_schema=models.PayloadSchemaType.KEYWORD,
         )
 
 

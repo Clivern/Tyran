@@ -23,102 +23,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import uuid
-from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
-from app.api.v1.tasks import store_document_in_vector_db
-from app.api.v1.tasks import delete_document_from_vector_db
-from app.core.logger import Logger
-from app.core import crud, schemas, database
-from app.api.v1.model import Document
-from app.core.logger import get_logger
-from app.core.middleware import get_api_key
+from uuid import uuid4
 
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from app.api.v1.deps import get_document_module
+from app.model import DocumentCreate, DocumentCreateRequest, DocumentResponse
+from app.module import DocumentModule
 
 router = APIRouter()
 
 
-@router.post("/api/v1/document", dependencies=[Depends(get_api_key)])
-def create(
-    doc: Document,
-    bg: BackgroundTasks,
-    db: Session = Depends(database.get_db),
-    log: Logger = Depends(get_logger),
-):
-    doc.id = str(uuid.uuid4())
-
-    log.info(f"Create a new document with id {doc.id}")
-
-    document_create = schemas.DocumentCreate(identifier=doc.id, content=doc.content)
-    created_document = crud.create_document(db=db, document=document_create)
-    log.info(f"Document with id {doc.id} got created")
-    doc.createdAt = created_document.created_at
-    doc.updatedAt = created_document.updated_at
-
-    for key, value in doc.metadata.items():
-        log.info(f"Create meta with {key} = {value} for document {doc.id}")
-        crud.create_document_meta(
-            db=db,
-            meta=schemas.DocumentMetaCreate(
-                document_id=created_document.id, key=key, value=value
-            ),
-        )
-
-    log.info(f"Trigger async job to store document with id {doc.id} data")
-
-    bg.add_task(store_document_in_vector_db, doc)
-
-    return doc
-
-
-@router.get("/api/v1/document/{identifier}", dependencies=[Depends(get_api_key)])
-def get_document_by_identifier(
-    identifier: str,
-    db: Session = Depends(database.get_db),
-    log: Logger = Depends(get_logger),
-):
-    log.info(f"Fetch Document with id {identifier}")
-
-    document = crud.get_document_by_identifier(db, identifier)
-
-    if not document:
-        log.info(f"Document with id {identifier} not found")
-        raise HTTPException(status_code=404, detail=f"Document {identifier} not found")
-
-    log.info(f"Document with id {identifier} is found")
-
-    doc = Document(
-        id=document.identifier,
-        content=document.content,
-        metadata={meta.key: meta.value for meta in document.meta},
-        createdAt=document.created_at,
-        updatedAt=document.updated_at,
+@router.post(
+    "/document",
+    response_model=DocumentResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_document(
+    request: DocumentCreateRequest,
+    document_module: DocumentModule = Depends(get_document_module),
+) -> DocumentResponse:
+    document_payload = DocumentCreate(
+        identifier=str(uuid4()),
+        content=request.content,
+        category=request.category.strip(),
     )
+    return document_module.create_document(document_payload)
 
-    return doc
 
-
-@router.delete("/api/v1/document/{identifier}", dependencies=[Depends(get_api_key)])
-def delete_document_by_identifier(
+@router.get("/document/{identifier}", response_model=DocumentResponse)
+def get_document(
     identifier: str,
-    bg: BackgroundTasks,
-    db: Session = Depends(database.get_db),
-    log: Logger = Depends(get_logger),
-):
-    document = crud.get_document_by_identifier(db, identifier)
-
-    if not document:
-        log.info(f"Document with id {identifier} not found")
-        raise HTTPException(status_code=404, detail=f"Document {identifier} not found")
-
-    log.info(f"Document with id {identifier} is found")
-    log.info(f"Delete metas for document with id {identifier}")
-    crud.delete_document_metas_by_document_id(db, document.id)
-    log.info(f"Delete document with id {identifier}")
-    crud.delete_document(db, document.id)
-
-    log.info(f"Trigger async job to delete document with id {identifier}")
-
-    bg.add_task(delete_document_from_vector_db, identifier)
-
-    return {"detail": f"Document {identifier} deleted successfully"}
+    document_module: DocumentModule = Depends(get_document_module),
+) -> DocumentResponse:
+    document = document_module.get_document(identifier)
+    if document is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Document not found"
+        )
+    return document

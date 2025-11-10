@@ -23,82 +23,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from app.core.configs import configs
-from app.core.logger import Logger
-from app.api.v1.model import RelatedDocument
-from app.api.v1.model import Prompt
-from app.core import crud, database
-from app.core.logger import get_logger
-from app.core.qdrant import Qdrant, get_qdrant
-from app.core.openai_client import OpenAIClient, get_openai_client
-from app.core.middleware import get_api_key
+from typing import List
 
+from fastapi import APIRouter, Depends
+
+from app.api.v1.deps import get_search_module
+from app.model import DocumentSearchRequest, DocumentSearchResult
+from app.module import SearchModule
 
 router = APIRouter()
 
 
-@router.post("/api/v1/document/search", dependencies=[Depends(get_api_key)])
-def search(
-    prompt: Prompt,
-    db: Session = Depends(database.get_db),
-    log: Logger = Depends(get_logger),
-    openai_client: OpenAIClient = Depends(get_openai_client),
-    qdrant_client: Qdrant = Depends(get_qdrant),
-):
-    log.info(f"Create embedding for prompt `{prompt.text}`")
-
-    try:
-        response = openai_client.create_embedding([prompt.text])
-    except Exception as e:
-        log.error(f"Unable to create embedding: {e}")
-        raise Exception("Internal Server Error")
-
-    log.info("Query vector database for similar records")
-
-    try:
-        idents = qdrant_client.search(
-            configs.qdrant_db_collection,
-            response.data[0].embedding,
-            prompt.metadata,
-            prompt.limit,
-        )
-    except Exception as e:
-        log.error(f"Unable to find related documents: {e}")
-        raise Exception("Internal Server Error")
-
-    if len(idents) == 0:
-        log.info("No similar documents is found")
-        return []
-
-    log.info(f"Fetch similar documents {idents}")
-
-    try:
-        documents = crud.get_documents_by_identifiers(
-            db, [param["id"] for param in idents]
-        )
-    except Exception as e:
-        log.error(f"Unable to fetch related documents from database: {e}")
-        raise Exception("Internal Server Error")
-
-    result = []
-    score_map = {item["id"]: item["score"] for item in idents}
-
-    log.info(f"Build a final output for {idents}")
-
-    for document in documents:
-        result.append(
-            RelatedDocument(
-                id=document.identifier,
-                score=score_map[document.identifier],
-                content=document.content,
-                metadata={meta.key: meta.value for meta in document.meta},
-                createdAt=document.created_at,
-                updatedAt=document.updated_at,
-            )
-        )
-
-    result.sort(key=lambda x: x.score, reverse=True)
-
-    return result
+@router.post("/document/search", response_model=List[DocumentSearchResult])
+def search_documents(
+    payload: DocumentSearchRequest,
+    search_module: SearchModule = Depends(get_search_module),
+) -> List[DocumentSearchResult]:
+    return search_module.search_documents(
+        query=payload.text,
+        category=payload.category.strip(),
+        limit=payload.limit,
+    )

@@ -23,60 +23,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from pydantic import BaseModel
+from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-
-# Option schemas
-class OptionBase(BaseModel):
-    key: str
-    value: str
+from pydantic import BaseModel, ConfigDict
 
 
-class OptionCreate(OptionBase):
-    pass
-
-
-class OptionUpdate(BaseModel):
-    key: Optional[str] = None
-    value: Optional[str] = None
-
-
-class Option(OptionBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-# Document schemas
-class DocumentBase(BaseModel):
-    identifier: str
-    content: str
-
-
-class DocumentCreate(DocumentBase):
-    pass
-
-
-class DocumentUpdate(BaseModel):
-    identifier: Optional[str] = None
-    content: Optional[str] = None
-
-
-class Document(DocumentBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-# DocumentMeta schemas
 class DocumentMetaBase(BaseModel):
     document_id: int
     key: str
@@ -88,6 +41,7 @@ class DocumentMetaCreate(DocumentMetaBase):
 
 
 class DocumentMetaUpdate(BaseModel):
+    document_id: Optional[int] = None
     key: Optional[str] = None
     value: Optional[str] = None
 
@@ -97,5 +51,4 @@ class DocumentMeta(DocumentMetaBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

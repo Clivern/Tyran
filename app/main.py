@@ -23,69 +23,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 from fastapi import FastAPI
-from app.core.configs import configs
-from app.api.router import router
-from app.core import models
-from app.core.database import engine, wait_for_db
+from app.core.config import configs
+from app.api.v1.router import router
 from app.core.logger import get_logger
-from app.core.qdrant import get_qdrant
-from app.core.middleware import setup_middleware
-from opentelemetry import trace
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-from opentelemetry.semconv.resource import ResourceAttributes
-from app.core.telemetry import server_request_hook, client_response_hook
+from app.middleware import setup_middleware
+from app.db.migrate import run_initial_migrations
 
 
 log = get_logger()
 
-log.info("Attempt to migrate the database")
-
-wait_for_db(engine, 30)
-
-models.Base.metadata.create_all(bind=engine)
-
-log.info("Database is migrated")
+run_initial_migrations()
 
 log.info("Start the app server")
-
-if configs.enable_otlp and not os.getenv("TEST_RUN"):
-    log.info("Set up OpenTelemetry Tracer Provider")
-
-    resource = Resource.create({ResourceAttributes.SERVICE_NAME: configs.app_name})
-
-    tracer_provider = TracerProvider(resource=resource)
-    trace.set_tracer_provider(tracer_provider)
-    log.info("Set up OTLP exporter for traces")
-
-    otlp_exporter = OTLPSpanExporter(
-        endpoint=configs.otlp_endpoint, insecure=not configs.secure_otlp
-    )
-    span_processor = BatchSpanProcessor(otlp_exporter)
-    tracer_provider.add_span_processor(span_processor)
-
-app = FastAPI(title=configs.app_name, description=configs.app_description)
-
-if configs.enable_otlp and not os.getenv("TEST_RUN"):
-    log.info("Setup FastAPI instrumentor")
-
-    FastAPIInstrumentor.instrument_app(
-        app,
-        server_request_hook=server_request_hook,
-        client_response_hook=client_response_hook,
-    )
-
-if configs.vector_search_driver == "qdrant" and not os.getenv("TEST_RUN"):
-    log.info("Create qdrant collection")
-    qdrant_client = get_qdrant()
-    qdrant_client.create_collection_if_not_exist(configs.qdrant_db_collection)
-    log.info(f"Qdrant collection with name {configs.qdrant_db_collection} got created")
-
+app = FastAPI(
+    title=configs.app_name,
+    description=configs.app_description,
+    docs_url=None,
+    redoc_url=None,
+)
 app.include_router(router)
-
 setup_middleware(app)

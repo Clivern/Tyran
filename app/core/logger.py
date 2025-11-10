@@ -23,48 +23,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
+from __future__ import annotations
+
 import logging
+from typing import Optional
+
+from app.core.config import configs
 
 
-class Logger:
-    loggers = {}
-
-    def __init__(self):
-        self.log_level = os.environ.get("APP_LOGGING_LEVEL", "info").upper()
-        self.log_handlers = (
-            os.environ.get("APP_LOGGING_HANDLERS", "console").lower().split(",")
-        )
-
-    def get_logger(self, name=__name__):
-        if name in self.loggers:
-            return self.loggers[name]
-
-        logger = logging.getLogger(name)
-        logger.setLevel(self._get_log_level())
-
-        if not logger.handlers:
-            self._setup_handlers(logger)
-
-        self.loggers[name] = logger
-
-        return logger
-
-    def _get_log_level(self):
-        return getattr(logging, self.log_level, logging.INFO)
-
-    def _setup_handlers(self, logger):
-        if "console" in self.log_handlers:
-            console_handler = logging.StreamHandler()
-
-            console_handler.setFormatter(
-                logging.Formatter(
-                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-                )
-            )
-
-            logger.addHandler(console_handler)
+Logger = logging.Logger
 
 
-def get_logger() -> Logger:
-    return Logger().get_logger(__name__)
+def configure_logging(handler: Optional[logging.Handler] = None) -> None:
+    level = (
+        logging.DEBUG if configs.app_logging_level.lower() == "debug" else logging.INFO
+    )
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
+
+    if handler:
+        logging.getLogger().addHandler(handler)
+
+
+def get_logger(name: str = __name__) -> logging.Logger:
+    return logging.getLogger(name)

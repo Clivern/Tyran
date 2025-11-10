@@ -23,42 +23,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import time
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
-from app.core.configs import configs
+from .document import (
+    Document,
+    DocumentBase,
+    DocumentCreate,
+    DocumentCreateRequest,
+    DocumentResponse,
+)
+from .document_meta import (
+    DocumentMeta,
+    DocumentMetaBase,
+    DocumentMetaCreate,
+    DocumentMetaUpdate,
+)
+from .option import Option, OptionBase, OptionCreate, OptionUpdate
+from .search import DocumentSearchRequest, DocumentSearchResult
 
-
-if configs.db_connection == "mysql":
-    engine = create_engine(str(configs.get_db_connection()))
-else:
-    engine = create_engine(
-        str(configs.get_db_connection()), connect_args={"check_same_thread": False}
-    )
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
-
-def get_db() -> Session:
-    db = SessionLocal()
-
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def wait_for_db(engine, max_retries=5, retry_interval=10):
-    for i in range(max_retries):
-        try:
-            connection = engine.connect()
-            connection.close()
-            return
-        except Exception:
-            time.sleep(retry_interval)
-
-    raise Exception("Could not connect to the database after multiple retries")
+__all__ = [
+    "Document",
+    "DocumentBase",
+    "DocumentCreate",
+    "DocumentCreateRequest",
+    "DocumentResponse",
+    "DocumentMeta",
+    "DocumentMetaBase",
+    "DocumentMetaCreate",
+    "DocumentMetaUpdate",
+    "DocumentSearchRequest",
+    "DocumentSearchResult",
+    "Option",
+    "OptionBase",
+    "OptionCreate",
+    "OptionUpdate",
+]

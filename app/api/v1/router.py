@@ -23,10 +23,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import os.path
+from fastapi import APIRouter, Depends
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_ROOT = os.path.dirname(APP_DIR)
+from app.api.v1 import document, health, search
+from app.middleware import validate_api_key
 
-__all__ = ["APP_ROOT", "APP_DIR"]
+
+def create_api_router() -> APIRouter:
+    router = APIRouter()
+    router.include_router(
+        document.router,
+        prefix="/api/v1",
+        tags=["document"],
+        dependencies=[Depends(validate_api_key)],
+    )
+    router.include_router(health.router, prefix="/api/v1", tags=["system"])
+    router.include_router(
+        search.router,
+        prefix="/api/v1",
+        tags=["search"],
+        dependencies=[Depends(validate_api_key)],
+    )
+    return router
+
+
+router = create_api_router()

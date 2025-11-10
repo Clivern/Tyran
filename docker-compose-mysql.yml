@@ -14,7 +14,7 @@ services:
       - qdrant_data:/qdrant/storage
 
   tyran:
-    image: clivern/tyran:0.7.2
+    image: clivern/tyran:0.8.0
     restart: unless-stopped
     environment:
       DB_CONNECTION: mysql
@@ -27,6 +27,7 @@ services:
       QDRANT_DB_URL: http://qdrant:6333
       QDRANT_DB_API_KEY: ''
       QDRANT_DB_COLLECTION: tyr_collect
+      QDRANT_DB_INDEX: category
     ports:
       - "8000:8000"
     volumes:

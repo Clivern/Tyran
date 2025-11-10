@@ -25,6 +25,8 @@
 
 import os
 import os.path
+from functools import lru_cache
+
 from app import APP_ROOT
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
@@ -59,6 +61,7 @@ class Configs(BaseSettings):
     qdrant_db_url: str = ""
     qdrant_db_api_key: str = ""
     qdrant_db_collection: str = "tyrcollect"
+    qdrant_db_index: str = "category"
 
     app_logging_handlers: str = "console"
     app_logging_level: str = "info"
@@ -78,4 +81,12 @@ class Configs(BaseSettings):
             return f"{self.db_connection}://{self.db_username}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_database}"
 
 
-configs = Configs()
+@lru_cache()
+def get_settings() -> Configs:
+    return Configs()
+
+
+configs = get_settings()
+
+
+__all__ = ["Configs", "configs", "get_settings"]

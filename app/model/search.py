@@ -1,12 +1,3 @@
-# MIT License
-#
-# Copyright (c) 2024 Clivern
-#
-# This software is licensed under the MIT License. The full text of the license
-# is provided below.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
@@ -23,24 +14,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from __future__ import annotations
 from datetime import datetime
-from pydantic import BaseModel
-from typing import Dict, Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class Document(BaseModel):
-    id: Optional[str] = None
+class DocumentSearchRequest(BaseModel):
+    text: str = Field(..., min_length=1)
+    limit: int = Field(default=5, ge=1, le=50)
+    category: str
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class DocumentSearchResult(BaseModel):
+    id: str
     content: str
-    metadata: Dict[str, str] = {}
-    createdAt: Optional[datetime] = None
-    updatedAt: Optional[datetime] = None
-
-
-class Prompt(BaseModel):
-    text: str = ""
-    metadata: Dict[str, str] = {}
-    limit: int = 1
-
-
-class RelatedDocument(Document):
+    category: str
+    created_at: datetime
+    updated_at: datetime
     score: float
+
+    model_config = ConfigDict(extra="forbid")
