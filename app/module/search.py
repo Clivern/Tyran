@@ -45,7 +45,7 @@ class SearchModule:
         self._document_repository = document_repository
         self._qdrant_client = qdrant_client
         self._openai_client = openai_client
-        self._logger = get_logger(__name__)
+        self._logger = get_logger()
 
     def search_documents(
         self,
@@ -56,19 +56,14 @@ class SearchModule:
         category_value = category.strip()
 
         self._logger.info(
-            "Search documents for query %s in category %s with limit %s",
-            query,
-            category_value,
-            limit,
+            f"Search documents for query {query} in category {category_value} with limit {limit}"
         )
 
         try:
             response = self._openai_client.create_embedding([query])
             vector = response.data[0].embedding  # type: ignore[attr-defined]
         except Exception as exc:  # noqa: BLE001
-            self._logger.error(
-                "Unable to create embedding for query %s: %s", query, exc
-            )
+            self._logger.error(f"Unable to create embedding for query {query}: {exc}")
             return []
 
         try:
@@ -79,11 +74,11 @@ class SearchModule:
                 limit=limit,
             )
         except Exception as exc:  # noqa: BLE001
-            self._logger.error("Vector search failed for query %s: %s", query, exc)
+            self._logger.error(f"Vector search failed for query {query}: {exc}")
             return []
 
         if not results:
-            self._logger.info("No search results found for query %s", query)
+            self._logger.info(f"No search results found for query {query}")
             return []
 
         identifiers = [str(result["id"]) for result in results]
@@ -98,8 +93,7 @@ class SearchModule:
 
             if document is None:
                 self._logger.warning(
-                    "Document %s returned by vector search but not found in repository",
-                    identifier,
+                    f"Document {identifier} returned by vector search but not found in repository"
                 )
                 continue
 

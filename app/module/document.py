@@ -46,13 +46,13 @@ class DocumentModule:
         self._document_repository = document_repository
         self._qdrant_client = qdrant_client
         self._openai_client = openai_client
-        self._logger = get_logger(__name__)
+        self._logger = get_logger()
 
     def create_document(
         self,
         payload: DocumentCreate,
     ) -> DocumentResponse:
-        self._logger.info("Create document with identifier %s", payload.identifier)
+        self._logger.info(f"Create document with identifier {payload.identifier}")
         document = self._document_repository.create(payload)
 
         self._store_document_vector(document)
@@ -67,14 +67,14 @@ class DocumentModule:
         return self._build_document_response(document)
 
     def delete_document(self, identifier: str) -> Optional[Document]:
-        self._logger.info("Delete document with identifier %s", identifier)
+        self._logger.info(f"Delete document with identifier {identifier}")
         existing = self._document_repository.get_by_identifier(identifier)
         if existing is None:
-            self._logger.info("Document %s not found; nothing to delete", identifier)
+            self._logger.info(f"Document {identifier} not found; nothing to delete")
             return None
 
         deleted = self._document_repository.delete(existing.id)
-        self._logger.info("Deleted document %s from persistence layer", identifier)
+        self._logger.info(f"Deleted document {identifier} from persistence layer")
 
         self._delete_document_vector(identifier)
 
@@ -101,9 +101,7 @@ class DocumentModule:
             vector = response.data[0].embedding  # type: ignore[attr-defined]
         except Exception as exc:  # noqa: BLE001
             self._logger.error(
-                "Unable to create embedding for document %s: %s",
-                document.identifier,
-                exc,
+                f"Unable to create embedding for document {document.identifier}: {exc}"
             )
             return
 
@@ -122,15 +120,11 @@ class DocumentModule:
                 ],
             )
             self._logger.info(
-                "Stored vector for document %s in collection %s",
-                document.identifier,
-                configs.qdrant_db_collection,
+                f"Stored vector for document {document.identifier} in collection {configs.qdrant_db_collection}"
             )
         except Exception as exc:  # noqa: BLE001
             self._logger.error(
-                "Unable to store vector for document %s: %s",
-                document.identifier,
-                exc,
+                f"Unable to store vector for document {document.identifier}: {exc}"
             )
 
     def _build_vector_payload(self, document: Document) -> dict[str, str]:
@@ -141,18 +135,14 @@ class DocumentModule:
         value = getattr(document, index_field, None)
         if value is None:
             self._logger.warning(
-                "Document %s is missing index field %s",
-                document.identifier,
-                index_field,
+                f"Document {document.identifier} is missing index field {index_field}"
             )
             return {}
 
         value_str = str(value).strip()
         if value_str == "":
             self._logger.warning(
-                "Document %s has empty value for index field %s",
-                document.identifier,
-                index_field,
+                f"Document {document.identifier} has empty value for index field {index_field}"
             )
             return {}
 
@@ -162,13 +152,9 @@ class DocumentModule:
         try:
             self._qdrant_client.delete(configs.qdrant_db_collection, identifier)
             self._logger.info(
-                "Deleted vector for document %s from collection %s",
-                identifier,
-                configs.qdrant_db_collection,
+                f"Deleted vector for document {identifier} from collection {configs.qdrant_db_collection}"
             )
         except Exception as exc:  # noqa: BLE001
             self._logger.error(
-                "Unable to delete vector for document %s: %s",
-                identifier,
-                exc,
+                f"Unable to delete vector for document {identifier}: {exc}"
             )

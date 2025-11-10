@@ -23,29 +23,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import annotations
-
-import logging
-from typing import Optional
-
+import sys
+from loguru import logger as loguru_logger
 from app.core.config import configs
 
 
-Logger = logging.Logger
+def get_logger() -> loguru_logger:
+    loguru_logger.remove()
+    if configs.app_logging_handlers == "console":
+        loguru_logger.add(
+            sys.stderr,
+            format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
+            level=configs.app_logging_level.upper(),
+        )
+    else:
+        loguru_logger.add(
+            configs.app_logging_handlers,
+            format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
+            level=configs.app_logging_level.upper(),
+        )
 
-
-def configure_logging(handler: Optional[logging.Handler] = None) -> None:
-    level = (
-        logging.DEBUG if configs.app_logging_level.lower() == "debug" else logging.INFO
-    )
-    logging.basicConfig(
-        level=level,
-        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
-    )
-
-    if handler:
-        logging.getLogger().addHandler(handler)
-
-
-def get_logger(name: str = __name__) -> logging.Logger:
-    return logging.getLogger(name)
+    return loguru_logger
