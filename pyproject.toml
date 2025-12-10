@@ -16,6 +16,6 @@ dependencies = [
     "qdrant-client==1.16.1",
     "requests==2.32.3",
     "ruff>=0.14.4",
-    "sqlalchemy==2.0.44",
+    "sqlalchemy==2.0.45",
     "uvicorn[standard]==0.38.0",
 ]
