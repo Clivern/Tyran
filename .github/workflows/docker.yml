@@ -20,7 +20,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051
+        uses: docker/metadata-action@11079342065fb7d2c3b37cb799ab6ecc01ad1bb2
         with:
           images: clivern/tyran
 
