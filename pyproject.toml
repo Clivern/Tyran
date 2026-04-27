@@ -12,7 +12,7 @@ dependencies = [
     "openai==2.14.0",
     "pydantic-settings==2.11.0",
     "pytest==8.4.2",
-    "python-dotenv==1.2.1",
+    "python-dotenv==1.2.2",
     "qdrant-client==1.16.1",
     "requests==2.32.3",
     "ruff>=0.14.4",
